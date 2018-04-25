@@ -29,14 +29,16 @@ class myContentHandler(ContentHandler):
         if name == 'item':
             self.inItem = True
         elif self.inItem:
-			# Esto en el contenido buscado cuando leo la etiqueta 'title' o 'link'.  
+            # Esto en el contenido buscado cuando leo la etiqueta 'title' o 'link'.
             if name == 'title':
                 self.inContent = True
             elif name == 'link':
                 self.inContent = True
-            
+            elif name == 'description':
+                self.inContent = True
+
     def endElement (self, name):
-		# Salgo de '/item', luego ya no estoy en el contenido buscado.
+        # Salgo de '/item', luego ya no estoy en el contenido buscado.
         if name == 'item':
             self.inItem = False
         elif self.inItem:
@@ -46,16 +48,21 @@ class myContentHandler(ContentHandler):
                 self.inContent = False
                 self.theContent = ""
             elif name == 'link':
-				link = "<a href='" + self.theContent + "'>" + self.line + "</a><br>"
-				print(link)
-				self.inContent = False
-				self.theContent = ""
+                link = "<a href='" + self.theContent + "'>" + self.line + "</a><br>"
+                print(link)
+                self.inContent = False
+                self.theContent = ""
+            elif name == 'description':
+                des = self.theContent + "<br>"
+                print(des.decode('utf-8'))
+                self.inContent = False
+                self.theContent = ""
 
     def characters (self, chars):
-		# Si estoy en el contenido, añado a la varible inContent los caracteres.
+        # Si estoy en el contenido, añado a la varible inContent los caracteres.
         if self.inContent:
             self.theContent = self.theContent + chars
-            
+
 # --- Main prog
 # Load parser and driver
 print("HTTP/1.1 200 OK \r\n\r\n<html><body>")
