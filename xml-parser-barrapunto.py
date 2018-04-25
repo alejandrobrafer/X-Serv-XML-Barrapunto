@@ -58,7 +58,7 @@ class myContentHandler(ContentHandler):
             
 # --- Main prog
 # Load parser and driver
-print("<html><body>")
+print("HTTP/1.1 200 OK \r\n\r\n<html><body>")
 theParser = make_parser()
 theHandler = myContentHandler()
 theParser.setContentHandler(theHandler)
