@@ -22,7 +22,6 @@ class myContentHandler(ContentHandler):
         self.inItem = False
         self.inContent = False
         self.theContent = ""
-        self.line = ""
 
     def startElement (self, name, attrs):
         # Los datos de las páginas se encuentras tras la etiqueta 'item'.
@@ -44,7 +43,6 @@ class myContentHandler(ContentHandler):
             if name == 'title':
                 self.line = self.theContent
                 # To avoid Unicode trouble
-                print self.line.encode('utf-8') 
                 self.inContent = False
                 self.theContent = ""
             elif name == 'link':
@@ -52,7 +50,6 @@ class myContentHandler(ContentHandler):
 				print(link)
 				self.inContent = False
 				self.theContent = ""
-				self.line = ""
 
     def characters (self, chars):
 		# Si estoy en el contenido, añado a la varible inContent los caracteres.
@@ -61,7 +58,7 @@ class myContentHandler(ContentHandler):
             
 # --- Main prog
 # Load parser and driver
-
+print("<html><body>")
 theParser = make_parser()
 theHandler = myContentHandler()
 theParser.setContentHandler(theHandler)
@@ -70,5 +67,4 @@ theParser.setContentHandler(theHandler)
 
 xmlFile = urllib.urlopen('http://barrapunto.com/index.rss')
 theParser.parse(xmlFile)
-
-print "Parse complete"
+print("</body></html>")
